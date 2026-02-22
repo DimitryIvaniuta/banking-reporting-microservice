@@ -1,0 +1,26 @@
+# ModSecurity-ready template (requires mod_security2 module present in the image/package)
+# For local Docker httpd:2.4 image this module is typically NOT bundled. Use a custom image if enabling.
+# LoadModule security2_module modules/mod_security2.so
+
+<IfModule security2_module>
+    SecRuleEngine DetectionOnly
+    SecRequestBodyAccess On
+    SecResponseBodyAccess Off
+    SecAuditEngine RelevantOnly
+    SecAuditLog /usr/local/apache2/logs/modsec_audit.log
+    SecAuditLogFormat JSON
+    SecTmpDir /tmp/
+    SecDataDir /tmp/
+    SecStatusEngine Off
+
+    # Recommended: include OWASP CRS (mounted into image)
+    # Include /usr/local/apache2/conf/modsecurity/crs-setup.conf
+    # Include /usr/local/apache2/conf/modsecurity/rules/*.conf
+
+    # Banking API tuning examples
+    SecRule REQUEST_HEADERS:Content-Type "!@rx ^(application/json|application/problem\+json)(;.*)?$" \
+      "id:100100,phase:1,pass,nolog,ctl:requestBodyProcessor=JSON"
+
+    # Raise anomaly threshold in local dev to reduce noise, tighten in prod after tuning
+    # SecAction "id:100101,phase:1,pass,nolog,setvar:tx.inbound_anomaly_score_threshold=10"
+</IfModule>
