@@ -1,0 +1,105 @@
+{
+  "info": {
+    "name": "banking-reporting-microservice",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://localhost:8443"
+    },
+    {
+      "key": "reportViewerUser",
+      "value": "report_viewer"
+    },
+    {
+      "key": "reportViewerPass",
+      "value": "changeit-viewer"
+    },
+    {
+      "key": "reportAdminUser",
+      "value": "report_admin"
+    },
+    {
+      "key": "reportAdminPass",
+      "value": "changeit-admin"
+    }
+  ],
+  "item": [
+    {
+      "name": "Ping",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/system/ping"
+      }
+    },
+    {
+      "name": "Generate Report",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"accountId\": 1001, \"fromDate\": \"2026-02-01\", \"toDate\": \"2026-02-28\", \"type\": \"TRANSACTION_SUMMARY\"}"
+        },
+        "url": "{{baseUrl}}/api/reports",
+        "auth": {
+          "type": "basic",
+          "basic": [
+            {
+              "key": "username",
+              "value": "{{reportAdminUser}}",
+              "type": "string"
+            },
+            {
+              "key": "password",
+              "value": "{{reportAdminPass}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "List Reports",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/reports?accountId=1001",
+        "auth": {
+          "type": "basic",
+          "basic": [
+            {
+              "key": "username",
+              "value": "{{reportViewerUser}}",
+              "type": "string"
+            },
+            {
+              "key": "password",
+              "value": "{{reportViewerPass}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/actuator/health"
+      }
+    },
+    {
+      "name": "Prometheus",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/actuator/prometheus"
+      }
+    }
+  ]
+}
