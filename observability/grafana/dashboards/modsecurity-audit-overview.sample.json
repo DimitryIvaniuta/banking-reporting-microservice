@@ -1,0 +1,13 @@
+{
+  "title": "BRMS - ModSecurity WAF Audit Overview (Sample)",
+  "schemaVersion": 39,
+  "version": 1,
+  "tags": ["modsecurity", "waf", "banking"],
+  "time": {"from": "now-6h", "to": "now"},
+  "panels": [
+    {"type": "timeseries", "title": "ModSecurity Events / min", "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0}, "targets": [{"expr": "sum(rate(modsec_events_total[1m]))", "legendFormat": "events/s"}]},
+    {"type": "timeseries", "title": "Blocked Requests / min", "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0}, "targets": [{"expr": "sum(rate(modsec_blocked_total[1m]))", "legendFormat": "blocked/s"}]},
+    {"type": "table", "title": "Top Triggered Rules (15m)", "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8}, "targets": [{"expr": "topk(10, sum by (rule_id) (increase(modsec_rule_hits_total[15m])))", "format": "table"}]},
+    {"type": "table", "title": "Top URIs (15m)", "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8}, "targets": [{"expr": "topk(10, sum by (uri) (increase(modsec_uri_hits_total[15m])))", "format": "table"}]}
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "title": "ModSecurity / CRS - Prometheus Metrics",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "10s",
+  "panels": [
+    {"type":"stat","title":"Audit Events","gridPos":{"x":0,"y":0,"w":6,"h":4},"targets":[{"expr":"modsec_audit_events_total"}]},
+    {"type":"stat","title":"Alert Events","gridPos":{"x":6,"y":0,"w":6,"h":4},"targets":[{"expr":"modsec_alert_events_total"}]},
+    {"type":"stat","title":"Blocked Events","gridPos":{"x":12,"y":0,"w":6,"h":4},"targets":[{"expr":"modsec_blocked_events_total"}]},
+    {"type":"stat","title":"Inbound Anomaly (max)","gridPos":{"x":18,"y":0,"w":6,"h":4},"targets":[{"expr":"modsec_inbound_anomaly_score"}]},
+    {"type":"timeseries","title":"Rule Hits Top 10","gridPos":{"x":0,"y":4,"w":12,"h":8},"targets":[{"expr":"topk(10, modsec_rule_hits_total)","legendFormat":"rule {{rule_id}}"}]},
+    {"type":"timeseries","title":"Severity Hits","gridPos":{"x":12,"y":4,"w":12,"h":8},"targets":[{"expr":"modsec_severity_hits_total","legendFormat":"{{severity}}"}]},
+    {"type":"table","title":"Hot URIs","gridPos":{"x":0,"y":12,"w":12,"h":8},"targets":[{"expr":"topk(20, modsec_uri_events_total)","format":"table"}]},
+    {"type":"table","title":"Hosts","gridPos":{"x":12,"y":12,"w":12,"h":8},"targets":[{"expr":"modsec_host_events_total","format":"table"}]}
+  ]
+}

@@ -1,0 +1,1 @@
+{"transaction":{"client_ip":"127.0.0.1","request":{"uri":"/api/reports/daily-summary?date=2026-02-22"},"messages":[{"message":"Warning","details":{"ruleId":"920350","severity":"WARNING"}},{"message":"Anomaly score exceeded","details":{"ruleId":"949110","severity":"CRITICAL"}}]}}
